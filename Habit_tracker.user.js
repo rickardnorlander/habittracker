@@ -3,7 +3,7 @@
 // @namespace   h
 // @description Records interaction with habitrpg locally. Allows json export
 // @include     https://habitrpg.com/*
-// @version     1
+// @version     1.1
 // @grant       GM_getValue
 // @grant       GM_setValue
 // @grant       GM_listValues
@@ -26,10 +26,12 @@
 	}
 	
 	function addExportButton () {
-		var btn = document.createElement("input");
-		btn.setAttribute("type", "button");
-		btn.setAttribute("value", "Export");
-		btn.addEventListener("click", function (e) {
+		var btn = document.createElement("li");
+		btn.setAttribute("class", "toolbar-button");
+		
+		var link = document.createElement("a");
+		link.innerHTML = "<span>Export json</span>";
+		link.addEventListener("click", function (e) {
 			var keys = GM_listValues();
 			keys.sort();
 			arr = [];
@@ -38,7 +40,9 @@
 			}
 			offerDownload("habits.json", JSON.stringify(arr));
 		});
-		document.querySelector("div.toolbar-container").appendChild(btn);
+		
+		btn.appendChild(link);
+		document.querySelector("ul.toolbar-nav").appendChild(btn);
 	}
 	
 	window.addEventListener ("load", addExportButton, false);
