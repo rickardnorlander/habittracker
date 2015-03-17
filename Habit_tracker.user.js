@@ -14,6 +14,17 @@
 		return;
 	}
 	
+	// http://stackoverflow.com/questions/2897619/using-html5-javascript-to-generate-and-save-a-file
+	function offerDownload (filename, text) {
+		var pom = document.createElement('a');
+		pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+		pom.setAttribute('download', filename);
+
+		var event = document.createEvent('MouseEvents');
+		event.initEvent('click', true, true);
+		pom.dispatchEvent(event);
+	}
+	
 	function addExportButton () {
 		var btn = document.createElement("input");
 		btn.setAttribute("type", "button");
@@ -25,9 +36,9 @@
 			for each (var key in keys) {
 				arr.push(JSON.parse(GM_getValue(key)));
 			}
-			alert(JSON.stringify(arr));
+			offerDownload("habits.json", JSON.stringify(arr));
 		});
-		return document.querySelector("div.toolbar-container").appendChild(btn);
+		document.querySelector("div.toolbar-container").appendChild(btn);
 	}
 	
 	window.addEventListener ("load", addExportButton, false);
